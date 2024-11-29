@@ -1,21 +1,15 @@
+import time
 import board
 import digitalio
-import time
 import neopixel
 from rainbowio import colorwheel
-
-# Update this to match the number of NeoPixel LEDs connected to your board.
-pause_time = 30
-
-# pixels = neopixel.NeoPixel(board.GP0, num_pixels)
-# pixels.brightness = 0.1
 
 
 class LED:
     def __init__(self, brightness=0.5):
         self.num_pixels = 16
-        self.brightness = brightness
         self.pixels = neopixel.NeoPixel(board.GP0, self.num_pixels)
+        self.pixels.brightness = brightness
         self.solid = Solid()
 
     def set_leds(self, rgb):
