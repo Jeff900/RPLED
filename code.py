@@ -7,20 +7,32 @@ import json
 
 
 class LED:
-    def __init__(self):
+    def __init__(self, filename='data.json'):
+        self.filename = filename
         self.data = self.get_data()
-        self.num_pixels = 16
+        self.num_pixels = self.data['num_pixels']
         self.pixels = neopixel.NeoPixel(board.GP0, self.num_pixels)
         self.pixels.brightness = self.data['brightness']
         self.solid = Solid()
 
-    def get_data(self, filename='data.json') -> dict:
-        """Loads json data from filename and return dict."""
-        with open(filename, 'r') as file:
+    def get_data(self) -> dict:
+        """Loads json data from json file and return dict."""
+        with open(self.filename, 'r') as file:
             data = json.load(file)
         return data
 
+    def save_data(self):
+        """Saves current data to json file."""
+        data = {
+            'num_pixels': self.num_pixels,
+            'brightness': self.pixels.brightness,
+            'rgb': self.rgb
+        }
+        with open(self.filename, 'w') as file:
+            json.dump()
+
     def set_leds(self, rgb):
+        self.rgb = rgb
         self.pixels.fill(rgb)
 
     def rainbow(self, speed=0):
@@ -47,6 +59,7 @@ def main():
         rgb = input('Insert RGB values seperated by commas: ')
         rgb = [int(i) for i in rgb.split(',')]
         led.set_leds(rgb)
+        # led.save_data()
 
 if __name__ == '__main__':
     main()
