@@ -1,65 +1,50 @@
+import os
+import wifi
+import socketpool
 import time
 import board
-import digitalio
-import neopixel
-from rainbowio import colorwheel
-import json
+from adafruit_httpserver import Server, Request, Response
+from led import LED
 
 
-class LED:
-    def __init__(self, filename='data.json'):
-        self.filename = filename
-        self.data = self.get_data()
-        self.num_pixels = self.data['num_pixels']
-        self.pixels = neopixel.NeoPixel(board.GP0, self.num_pixels)
-        self.pixels.brightness = self.data['brightness']
-        self.solid = Solid()
-
-    def get_data(self) -> dict:
-        """Loads json data from json file and return dict."""
-        with open(self.filename, 'r') as file:
-            data = json.load(file)
-        return data
-
-    def save_data(self):
-        """Saves current data to json file."""
-        data = {
-            'num_pixels': self.num_pixels,
-            'brightness': self.pixels.brightness,
-            'rgb': self.rgb
-        }
-        with open(self.filename, 'w') as file:
-            json.dump()
-
-    def set_leds(self, rgb):
-        self.rgb = rgb
-        self.pixels.fill(rgb)
-
-    def rainbow(self, speed=0):
-        for j in range(255):
-            for i in range(self.num_pixels):
-                pixel_index = (i * 256 // self.num_pixels) + j
-                self.pixels[i] = colorwheel(pixel_index & 255)
-            self.pixels.show()
-            time.sleep(speed)
+ssid = os.getenv('CIRCUITPY_WIFI_SSID')
+password = os.getenv('CIRCUITPY_WIFI_PASSWORD')
+print(f"Connecting to {ssid}...")
+wifi.radio.connect(ssid, password)
+print(f"Connected to {ssid}")
+pool = socketpool.SocketPool(wifi.radio)
+server = Server(pool, "/static", debug=True)
+led = LED()
+led.set_leds(led.data['rgb'])
 
 
-class Solid:
-    def __init__(self):
-        rgb = (0, 0, 0)
+@server.route('/solid')
+def red_led(request: Request):
+    params = dict(request.query_params.items())
+    led.set_leds((
+        int(params['r']),
+        int(params['g']),
+        int(params['b'])))
+    with open('templates/index.html', 'r') as file:
+        html = file.read()
+        print(type(html))
+    return Response(request, body=html, content_type='text/html')
 
-    def set_rgb(self, r, g, b):
-        self.rgb = (r, g, b)
+
+@server.route('/red')
+def red_led(request: Request):
+    led.set_leds((255,0,0))
+    with open('templates/index.html', 'r') as file:
+        html = file.read()
+        print(type(html))
+    return Response(request, body=html, content_type='text/html')
 
 
-def main():
-    while True:
-        led = LED()
-        led.set_leds(led.data['rgb'])
-        rgb = input('Insert RGB values seperated by commas: ')
-        rgb = [int(i) for i in rgb.split(',')]
-        led.set_leds(rgb)
-        # led.save_data()
+@server.route('/')
+def index(request: Request):
+    with open('templates/index.html', 'r') as file:
+        html = file.read()
+        print(type(html))
+    return Response(request, body=html, content_type='text/html')
 
-if __name__ == '__main__':
-    main()
+server.serve_forever(str(wifi.radio.ipv4_address))

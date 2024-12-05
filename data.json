@@ -1,5 +1,5 @@
 {
 	"num_pixels": 16,
-	"brightness": 0.1,
-	"rgb": [255,0,0]
+	"brightness": 0.5,
+	"rgb": [255,125,0]
 }
