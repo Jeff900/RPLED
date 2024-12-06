@@ -41,6 +41,12 @@ class LED:
             self.pixels.show()
             time.sleep(speed)
 
+    def validate_rgb(self, rgb):
+        """Verify that the rgb values are between 0 and 255. Smaller than 0
+        defaults to 0. Higher than 255 defaults to 255. No value defaults to 0.
+        """
+        pass
+
 
 class Solid:
     def __init__(self):

@@ -3,23 +3,45 @@
 <head>
 	<meta charset="utf-8">
 	<title>RPLED</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<h1>RGLED</h1>
-<a href="./solid?r=255&g=0&b=0" title="red">Red</a>
-<a href="./solid?r=255&g=125&b=0" title="red">Orange</a>
-<a href="./solid?r=255&g=255&b=0" title="red">Yellow</a>
-<a href="./solid?r=125&g=255&b=0" title="red">Spring Green</a>
-<a href="./solid?r=0&g=255&b=0" title="red">Green</a>
-<a href="./solid?r=0&g=255&b=125" title="red">Turquoise</a>
-<a href="./solid?r=0&g=255&b=255" title="red">Cyan</a>
-<a href="./solid?r=0&g=125&b=255" title="red">Ocean</a>
-<a href="./solid?r=0&g=0&b=255" title="red">Blue</a>
-<a href="./solid?r=125&g=0&b=255" title="red">Violet</a>
-<a href="./solid?r=255&g=0&b=255" title="red">Magenta</a>
-<a href="./solid?r=255&g=0&b=125" title="red">Raspberry</a>
-<!-- <p>My first paragraph.</p> -->
+	<header id="header" class="">
+		
+	</header>
+	<nav>
+		<ul>
+			<li><a href="" title=""></a></li>
+		</ul>
+	</nav>
+	<div>
+		<h1>RPLED</h1>
+	</div>
+	<div>
+		<a class="quick-nav" href="./solid?r=255&g=0&b=0" title="red">Red</a>
+		<a class="quick-nav" href="./solid?r=255&g=125&b=0" title="red">Orange</a>
+		<a class="quick-nav" href="./solid?r=255&g=255&b=0" title="red">Yellow</a>
+		<a class="quick-nav" href="./solid?r=125&g=255&b=0" title="red">Spring Green</a>
+		<a class="quick-nav" href="./solid?r=0&g=255&b=0" title="red">Green</a>
+		<a class="quick-nav" href="./solid?r=0&g=255&b=125" title="red">Turquoise</a>
+		<a class="quick-nav" href="./solid?r=0&g=255&b=255" title="red">Cyan</a>
+		<a class="quick-nav" href="./solid?r=0&g=125&b=255" title="red">Ocean</a>
+		<a class="quick-nav" href="./solid?r=0&g=0&b=255" title="red">Blue</a>
+		<a class="quick-nav" href="./solid?r=125&g=0&b=255" title="red">Violet</a>
+		<a class="quick-nav" href="./solid?r=255&g=0&b=255" title="red">Magenta</a>
+		<a class="quick-nav" href="./solid?r=255&g=0&b=125" title="red">Raspberry</a>
+	</div>
+	<div>
+		<form action="/solid" method="post">
+		  <label for="r">R:</label><br>
+		  <input type="text" id="r" name="r"><br>
+		  <label for="g">G:</label><br>
+		  <input type="text" id="g" name="g"><br>
+		  <label for="g">B:</label><br>
+		  <input type="text" id="b" name="b"><br><br>
+		  <input type="submit" value="Submit">
+		</form>
+	</div>
 
 </body>
 </html>

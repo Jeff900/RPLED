@@ -3,7 +3,7 @@ import wifi
 import socketpool
 import time
 import board
-from adafruit_httpserver import Server, Request, Response
+from adafruit_httpserver import Server, Request, Response, GET, POST
 from led import LED
 
 
@@ -18,13 +18,19 @@ led = LED()
 led.set_leds(led.data['rgb'])
 
 
-@server.route('/solid')
+@server.route('/solid', [GET, POST])
 def solid(request: Request):
-    params = dict(request.query_params.items())
-    led.set_leds((
-        int(params['r']),
-        int(params['g']),
-        int(params['b'])))
+    print(request.method)
+    if request.method == 'POST':
+        print('POST request')
+        led.set_leds((0,255,0))
+    else:
+        print('Not POST request')
+        params = dict(request.query_params.items())
+        led.set_leds((
+            int(params['r']),
+            int(params['g']),
+            int(params['b'])))
     with open('templates/index.html', 'r') as file:
         html = file.read()
         print(type(html))
