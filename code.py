@@ -19,21 +19,12 @@ led.set_leds(led.data['rgb'])
 
 
 @server.route('/solid')
-def red_led(request: Request):
+def solid(request: Request):
     params = dict(request.query_params.items())
     led.set_leds((
         int(params['r']),
         int(params['g']),
         int(params['b'])))
-    with open('templates/index.html', 'r') as file:
-        html = file.read()
-        print(type(html))
-    return Response(request, body=html, content_type='text/html')
-
-
-@server.route('/red')
-def red_led(request: Request):
-    led.set_leds((255,0,0))
     with open('templates/index.html', 'r') as file:
         html = file.read()
         print(type(html))
