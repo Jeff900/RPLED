@@ -20,17 +20,19 @@ led.set_leds(led.data['rgb'])
 
 @server.route('/solid', [GET, POST])
 def solid(request: Request):
-    print(request.method)
     if request.method == 'POST':
-        print('POST request')
-        led.set_leds((0,255,0))
+        rgb = [
+            request.form_data['r'],
+            request.form_data['g'],
+            request.form_data['b']
+        ]
+        rgb = led.validate_rgb(rgb)
+        led.set_leds(rgb)
     else:
-        print('Not POST request')
         params = dict(request.query_params.items())
-        led.set_leds((
-            int(params['r']),
-            int(params['g']),
-            int(params['b'])))
+        rgb = [params['r'], params['g'], params['b']]
+        rgb = led.validate_rgb(rgb)
+        led.set_leds(rgb)
     with open('templates/index.html', 'r') as file:
         html = file.read()
         print(type(html))

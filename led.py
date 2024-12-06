@@ -41,11 +41,22 @@ class LED:
             self.pixels.show()
             time.sleep(speed)
 
-    def validate_rgb(self, rgb):
+    def validate_rgb(self, rgb) -> tuple:
         """Verify that the rgb values are between 0 and 255. Smaller than 0
         defaults to 0. Higher than 255 defaults to 255. No value defaults to 0.
+        If a value is not decimal, defaults to 0.
         """
-        pass
+        values = []
+        for value in rgb:
+            if not value.isdigit():
+                values.append(0)
+            elif int(value) < 0:
+                values.append(0)
+            elif int(value) > 255:
+                values.append(255)
+            else:
+                values.append(int(value))
+        return tuple(values)
 
 
 class Solid:
